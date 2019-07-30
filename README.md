@@ -51,8 +51,8 @@ indentation level for each major mode.
 These functions will change the current indentation level for the major mode
 that you currently on.
 
-* indent-control-inc-tab-width
-* indent-control-dec-tab-width
+* `indent-control-inc-tab-width`
+* `indent-control-dec-tab-width`
 
 
 ## Contribution
