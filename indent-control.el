@@ -255,7 +255,9 @@
 
 (defun indent-control--prog-mode-hook ()
   "Programming language mode hook."
-  (indent-control-continue-with-tab-width-record))
+  (let ((inhibit-message t)
+        (message-log-max nil))
+    (indent-control-continue-with-tab-width-record)))
 (add-hook 'prog-mode-hook #'indent-control--prog-mode-hook)
 
 
