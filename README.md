@@ -1,7 +1,7 @@
 # indent-control
 > Generic control the indentation level for each mode.
 
-Interface that combine all the indentation variables from each major mode 
+Interface that combine all the indentation variables from each major mode
 to one giant list.
 
 
@@ -11,7 +11,7 @@ You can tweak variable `indent-control-records ` to set the initial
 indentation level for each major mode.
 
 ```el
-(setq indent-control-records 
+(setq indent-control-records
   '((actionscript-mode     . 4)
     (c-mode                . 4)
     (c++-mode              . 4)
@@ -39,10 +39,18 @@ indentation level for each major mode.
     (yaml-mode             . 2)))
 ```
 
+### Change indentation level
+
+These functions will change the current indentation level for the major mode
+that you currently on.
+
+* indent-control-inc-tab-width
+* indent-control-dec-tab-width
+
 
 ## Contribution
 
-If you would like to contribute to this project, you may either 
-clone and make pull requests to this repository. Or you can 
-clone the project and establish your own branch of this tool. 
+If you would like to contribute to this project, you may either
+clone and make pull requests to this repository. Or you can
+clone the project and establish your own branch of this tool.
 Any methods are welcome!
