@@ -5,6 +5,13 @@ Interface that combine all the indentation variables from each major mode
 to one giant list.
 
 
+## Features
+
+* Decouple from user knowing each major mode's indentation level variable. (if have)
+* Keep the indentation level across buffers. If you change the indentation level
+in `buffer A` and switch to `buffer B`; they will have the same indentation level.
+
+
 ## Usage
 
 You can tweak variable `indent-control-records ` to set the initial
