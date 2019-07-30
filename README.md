@@ -69,7 +69,7 @@ so you would have to do the following.
 (defun my-actionscript-mode-hook ()
   "My actionscript mode hook."
   (indent-control-continue-with-tab-width-record))
-(add-hook 'actionscript-mode-hook #my-actionscript-mode-hook)
+(add-hook 'actionscript-mode-hook #'my-actionscript-mode-hook)
 ```
 
 
