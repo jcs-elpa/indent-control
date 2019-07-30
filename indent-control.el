@@ -162,23 +162,23 @@
    ((indent-control--is-current-major-mode-p '("actionscript-mode"))
     actionscript-indent-level)
    ((indent-control--is-current-major-mode-p '("cc-mode"
-                                   "c-mode"
-                                   "c++-mode"
-                                   "csharp-mode"
-                                   "java-mode"
-                                   "jayces-mode"
-                                   "objc-mode"))
+                                               "c-mode"
+                                               "c++-mode"
+                                               "csharp-mode"
+                                               "java-mode"
+                                               "jayces-mode"
+                                               "objc-mode"))
     c-basic-offset)
    ((indent-control--is-current-major-mode-p '("css-mode"))
     css-indent-offset)
    ((indent-control--is-current-major-mode-p '("js-mode"
-                                   "json-mode"))
+                                               "json-mode"))
     js-indent-level)
    ((indent-control--is-current-major-mode-p '("js2-mode"))
     js2-basic-offset)
    ((indent-control--is-current-major-mode-p '("lisp-mode"
-                                   "lisp-interaction-mode"
-                                   "emacs-lisp-mode"))
+                                               "lisp-interaction-mode"
+                                               "emacs-lisp-mode"))
     lisp-body-indent)
    ((indent-control--is-current-major-mode-p '("lua-mode"))
     lua-indent-level)
