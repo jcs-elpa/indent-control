@@ -8,8 +8,9 @@ to one giant list.
 ## Features
 
 * Decouple from user knowing each major mode's indentation level variable. (if have)
-* Keep the indentation level across buffers. If you change the indentation level
-in `buffer A` and switch to `buffer B`; they will have the same indentation level.
+* Keep the indentation level across buffers. If you changed the indentation level
+in `buffer A` and switch to `buffer B` with the same major mode; they will have 
+the same indentation level.
 
 
 ## Usage
@@ -53,6 +54,23 @@ that you currently on.
 
 * `indent-control-inc-tab-width`
 * `indent-control-dec-tab-width`
+
+### Make indentation work across all modes
+
+Is easy to make indentation level inherit last time modified in Emacs. Just 
+call `indent-control-continue-with-tab-width-record` function whenever
+you want to inherit the indentation level. This function is already get called 
+in `prog-mode-hook`, but with some major modes that they don't use inherit
+`prog-mode` will not work! You would have to manually called it in each mode's 
+startup hook. For instance `actionscript-mode` doesn't inherit `prog-mode` 
+so you would have to do the following.
+
+```el
+(defun my-actionscript-mode-hook ()
+  "My actionscript mode hook."
+  (indent-control-continue-with-tab-width-record))
+(add-hook 'actionscript-mode-hook #my-actionscript-mode-hook)
+```
 
 
 ## Contribution
