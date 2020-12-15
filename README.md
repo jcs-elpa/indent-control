@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/jcs-elpa/indent-control.svg?branch=master)](https://travis-ci.com/jcs-elpa/indent-control)
+[![Release Tag](https://img.shields.io/github/v/release/jcs-elpa/indent-control.svg)](https://github.com/jcs-elpa/indent-control/releases/latest)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # indent-control
@@ -11,7 +12,7 @@ to one giant list.
 
 * Decouple from user knowing each major mode's indentation level variable. (if have)
 * Keep the indentation level across buffers. If you changed the indentation level
-in `buffer A` and switch to `buffer B` with the same major mode; they will have 
+in `buffer A` and switch to `buffer B` with the same major mode; they will have
 the same indentation level.
 
 ## Usage
@@ -58,12 +59,12 @@ that you currently on.
 
 ### Make indentation work across all modes
 
-Is easy to make indentation level inherit last time modified in Emacs. Just 
+Is easy to make indentation level inherit last time modified in Emacs. Just
 call `indent-control-continue-with-tab-width-record` function whenever
-you want to inherit the indentation level. This function is already get called 
+you want to inherit the indentation level. This function is already get called
 in `prog-mode-hook`, but with some major modes that they don't use inherit
-`prog-mode` will not work! You would have to manually called it in each mode's 
-startup hook. For instance `actionscript-mode` doesn't inherit `prog-mode` 
+`prog-mode` will not work! You would have to manually called it in each mode's
+startup hook. For instance `actionscript-mode` doesn't inherit `prog-mode`
 so you would have to do the following.
 
 ```el
