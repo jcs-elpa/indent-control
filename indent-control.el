@@ -32,13 +32,11 @@
 
 ;;; Code:
 
-
 (defgroup indent-control nil
   "Visual Studio like line annotation in Emacs."
   :prefix "indent-control-"
   :group 'tool
   :link '(url-link :tag "Repository" "https://github.com/jcs090218/indent-control"))
-
 
 (defcustom indent-control-records
   '((actionscript-mode     . 4)
@@ -66,8 +64,13 @@
     (typescript-mode       . 4)
     (web-mode              . 2)
     (yaml-mode             . 2))
-  "Tab with recrods for all major mode."
+  "Tab with recrods for all `major-mode's."
   :type 'list
+  :group 'indent-control)
+
+(defcustom indent-control-delta 2
+  "Delta value for increment/decrement indentation level."
+  :type 'integer
   :group 'indent-control)
 
 (defcustom indent-control-min-indentation-level 0
@@ -79,7 +82,6 @@
   "Maximum indentation level can be set to."
   :type 'integer
   :group 'indent-control)
-
 
 (defun indent-control--is-current-major-mode-p (mns)
   "Check if this major modes MNS."
@@ -260,26 +262,24 @@
     (indent-control-continue-with-tab-width-record)))
 (add-hook 'prog-mode-hook #'indent-control--prog-mode-hook)
 
-
 ;;;###autoload
-(defun indent-control-inc-tab-width ()
+(defun indent-control-inc-indent-level ()
   "Increase tab width by 2."
   (interactive)
-  (indent-control--delta-tab-width 2)
+  (indent-control--delta-tab-width indent-control-delta)
   (indent-for-tab-command))
 
 ;;;###autoload
-(defun indent-control-dec-tab-width ()
+(defun indent-control-dec-indent-level ()
   "Decrease tab width by 2."
   (interactive)
-  (indent-control--delta-tab-width -2)
+  (indent-control--delta-tab-width (- 0 indent-control-delta))
   (indent-for-tab-command))
 
 ;;;###autoload
 (defun indent-control-continue-with-tab-width-record ()
   "Keep the tab width the same as last time modified."
   (indent-control--set-tab-width-by-mode (indent-control--get-tab-width-record-by-mode)))
-
 
 (provide 'indent-control)
 ;;; indent-control.el ends here
