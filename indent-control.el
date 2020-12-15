@@ -1,10 +1,10 @@
-;;; indent-control.el --- Generic control the indentation level for each mode.  -*- lexical-binding: t; -*-
+;;; indent-control.el --- Management for indentation level  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019  Shen, Jen-Chieh
 ;; Created date 2019-07-30 09:37:44
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
-;; Description: Generic control the indentation level for each mode.
+;; Description: Management for indentation level.
 ;; Keyword: control indent tab generic level
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "24.3"))
@@ -27,7 +27,7 @@
 
 ;;; Commentary:
 ;;
-;; Generic control the indentation level for each mode.
+;; Management for indentation level.
 ;;
 
 ;;; Code:
