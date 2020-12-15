@@ -8,7 +8,7 @@
 ;; Keyword: control indent tab generic level
 ;; Version: 0.1.0
 ;; Package-Requires: ((emacs "24.3"))
-;; URL: https://github.com/jcs090218/indent-control
+;; URL: https://github.com/jcs-elpa/indent-control
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -36,7 +36,7 @@
   "Visual Studio like line annotation in Emacs."
   :prefix "indent-control-"
   :group 'tool
-  :link '(url-link :tag "Repository" "https://github.com/jcs090218/indent-control"))
+  :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/indent-control"))
 
 (defcustom indent-control-records
   '((actionscript-mode     . 4)
