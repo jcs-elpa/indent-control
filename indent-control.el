@@ -74,7 +74,7 @@
     (typescript-mode       . 4)
     (web-mode              . 2)
     (yaml-mode             . 2))
-  "Tab with recrods for all `major-mode's."
+  "Indent level recrods for all `major-mode's."
   :type 'list
   :group 'indent-control)
 
