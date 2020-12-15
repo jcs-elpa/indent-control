@@ -78,6 +78,42 @@
   :type 'list
   :group 'indent-control)
 
+(defcustom indent-control-alist
+  '((actionscript-mode     . actionscript-indent-level)
+    (c-mode                . c-basic-offset)
+    (c++-mode              . c-basic-offset)
+    (csharp-mode           . c-basic-offset)
+    (java-mode             . c-basic-offset)
+    (jayces-mode           . c-basic-offset)
+    (objc-mode             . c-basic-offset)
+    (css-mode              . css-indent-offset)
+    (less-css-mode         . css-indent-offset)
+    (scss-mode             . css-indent-offset)
+    (ssass-mode            . ssass-tab-width)
+    (groovy-mode           . groovy-indent-offset)
+    (js-mode               . js-indent-level)
+    (js2-mode              . js2-basic-offset)
+    (lisp-mode             . lisp-body-indent)
+    (lisp-interaction-mode . lisp-body-indent)
+    (emacs-lisp-mode       . lisp-body-indent)
+    (lua-mode              . lua-indent-level)
+    (nasm-mode             . nasm-basic-offset)
+    (nxml-mode             . nxml-child-indent)
+    (python-mode           . py-indent-offset)
+    (rjsx-mode             . js-indent-level)
+    (ruby-mode             . ruby-indent-level)
+    (rust-mode             . rust-indent-offset)
+    (shader-mode           . shader-indent-offset)
+    (sql-mode              . sql-indent-offset)
+    (typescript-mode       . typescript-indent-level)
+    (web-mode              . (web-mode-markup-indent-offset
+                              web-mode-css-indent-offset
+                              web-mode-code-indent-offset))
+    (yaml-mode             . yaml-indent-offset))
+  "AList that maps `major-mode' to each major-mode's indent level variable name."
+  :type 'list
+  :group 'indent-control)
+
 (defcustom indent-control-delta 2
   "Delta value for increment/decrement indentation level."
   :type 'integer
@@ -134,41 +170,8 @@
 
 (defun indent-control--indent-level-by-mode ()
   "Return indentation level variable as symbol depends on current major mode."
-  (cond
-   ((indent-control--major-mode-p '("actionscript-mode")) (quote actionscript-indent-level))
-   ((indent-control--major-mode-p '("cc-mode"
-                                    "c-mode"
-                                    "c++-mode"
-                                    "csharp-mode"
-                                    "java-mode"
-                                    "jayces-mode"
-                                    "objc-mode")) (quote c-basic-offset))
-   ((indent-control--major-mode-p '("css-mode"
-                                    "less-css-mode"
-                                    "scss-mode")) (quote css-indent-offset))
-   ((indent-control--major-mode-p '("ssass-mode")) (quote ssass-tab-width))
-   ((indent-control--major-mode-p '("groovy-mode")) (quote groovy-indent-offset))
-   ((indent-control--major-mode-p '("js-mode")) (quote js-indent-level))
-   ((indent-control--major-mode-p '("js2-mode")) (quote js2-basic-offset))
-   ((indent-control--major-mode-p '("lisp-mode"
-                                    "lisp-interaction-mode"
-                                    "emacs-lisp-mode")) (quote lisp-body-indent))
-   ((indent-control--major-mode-p '("lua-mode")) (quote lua-indent-level))
-   ((indent-control--major-mode-p '("nasm-mode")) (quote nasm-basic-offset))
-   ((indent-control--major-mode-p '("nxml-mode")) (quote nxml-child-indent))
-   ((indent-control--major-mode-p '("python-mode")) (quote py-indent-offset))
-   ((indent-control--major-mode-p '("rjsx-mode")) (quote js-indent-level))
-   ((indent-control--major-mode-p '("ruby-mode")) (quote ruby-indent-level))
-   ((indent-control--major-mode-p '("rust-mode")) (quote rust-indent-offset))
-   ((indent-control--major-mode-p '("shader-mode")) (quote shader-indent-offset))
-   ((indent-control--major-mode-p '("sql-mode")) (quote sql-indent-offset))
-   ((indent-control--major-mode-p '("typescript-mode")) (quote typescript-indent-level))
-   ((indent-control--major-mode-p '("web-mode"))
-    (quote (web-mode-markup-indent-offset
-            web-mode-css-indent-offset
-            web-mode-code-indent-offset)))
-   ((indent-control--major-mode-p '("yaml-mode")) (quote yaml-indent-offset))
-   (t (quote tab-width))))
+  (or (cdr (assoc major-mode indent-control-alist))
+      (quote tab-width)))
 
 (defun indent-control-set-indent-level-by-mode (tw)
   "Set the tab width (TW) for current major mode."
