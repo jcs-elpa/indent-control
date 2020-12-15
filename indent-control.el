@@ -252,9 +252,11 @@
 ;;;###autoload
 (defun indent-control-continue-with-tab-width-record ()
   "Keep the tab width the same as last time modified."
-  (indent-control-set-indent-level-by-mode (indent-control--get-indent-level-record-by-mode)))
+  (indent-control-set-indent-level-by-mode (indent-control--get-indent-level-record-by-mode))
+  (message "test load"))
 
 ;; NOTE: Initial the indent level once after module is loaded.
+;;;###autoload
 (indent-control-continue-with-tab-width-record)
 
 (provide 'indent-control)
