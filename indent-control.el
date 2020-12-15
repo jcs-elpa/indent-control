@@ -7,7 +7,7 @@
 ;; Description: Management for indentation level.
 ;; Keyword: control indent tab generic level
 ;; Version: 0.1.0
-;; Package-Requires: ((emacs "24.3"))
+;; Package-Requires: ((emacs "26.1"))
 ;; URL: https://github.com/jcs-elpa/indent-control
 
 ;; This file is NOT part of GNU Emacs.
@@ -44,22 +44,32 @@
     (c++-mode              . 4)
     (csharp-mode           . 4)
     (css-mode              . 2)
+    (dockerfile-mode       . 2)
     (elisp-mode            . 2)
     (emacs-lisp-mode       . 2)
+    (go-mode               . 4)
+    (groovy-mode           . 4)
     (java-mode             . 4)
-    (js-mode               . 4)
-    (js2-mode              . 4)
-    (json-mode             . 4)
+    (jayces-mode           . 4)
+    (js-mode               . 2)
+    (js2-mode              . 2)
+    (json-mode             . 2)
+    (kotlin-mode           . 4)
+    (less-css-mode         . 2)
     (lisp-mode             . 2)
     (lisp-interaction-mode . 2)
     (lua-mode              . 4)
     (nasm-mode             . 4)
+    (nix-mode              . 2)
     (nxml-mode             . 2)
     (objc-mode             . 4)
     (python-mode           . 4)
+    (rjsx-mode             . 2)
     (ruby-mode             . 4)
     (rust-mode             . 4)
+    (scss-mode             . 2)
     (shader-mode           . 4)
+    (ssass-mode            . 2)
     (sql-mode              . 1)
     (typescript-mode       . 4)
     (web-mode              . 2)
@@ -83,195 +93,155 @@
   :type 'integer
   :group 'indent-control)
 
-(defun indent-control--is-current-major-mode-p (mns)
-  "Check if this major modes MNS."
-  (cond ((stringp mns)
-         (string= (symbol-name major-mode) mns))
+;;
+;; (@* "Util" )
+;;
+
+(defmacro indent-control--mute-apply (&rest body)
+  "Execute BODY without message."
+  (declare (indent 0) (debug t))
+  `(let ((message-log-max nil))
+     (with-temp-message (or (current-message) nil)
+       (let ((inhibit-message t)) (progn ,@body)))))
+
+(defmacro indent-control--no-log-apply (&rest body)
+  "Execute BODY without write it to message buffer."
+  (declare (indent 0) (debug t))
+  `(let ((message-log-max nil)) (progn ,@body)))
+
+(defun indent-control--clamp-integer (in-val in-min in-max)
+  "Make sure the IN-VAL is between IN-MIN and IN-MAX."
+  (cond ((<= in-val in-min) (setq in-val in-min))
+        ((>= in-val in-max) (setq in-val in-max)))
+  in-val)
+
+(defun indent-control--major-mode-p (mns)
+  "Check if this major mode MNS."
+  (cond ((stringp mns) (string= (symbol-name major-mode) mns))
         ((listp mns)
-         (let ((index 0)
-               (current-mode-name nil)
-               (found nil))
-           (while (and (< index (length mns))
-                       (not found))
-             (setq current-mode-name (nth index mns))
-             (setq found (indent-control--is-current-major-mode-p current-mode-name))
-             (setq index (1+ index)))
+         (let ((index 0) (len (length mns)) current-mode-name found)
+           (while (and (not found) (< index len))
+             (setq current-mode-name (nth index mns)
+                   found (indent-control--major-mode-p current-mode-name)
+                   index (1+ index)))
            found))
-        ((symbolp mns)
-         (equal major-mode mns))
+        ((symbolp mns) (equal major-mode mns))
         (t nil)))
 
-(defun indent-control--set-tab-width-by-mode (tw)
-  "Set the tab width TW for current major mode."
-  (cond
-   ((indent-control--is-current-major-mode-p '("actionscript-mode"))
-    (setq actionscript-indent-level tw))
-   ((indent-control--is-current-major-mode-p '("cc-mode"
-                                               "c-mode"
-                                               "c++-mode"
-                                               "csharp-mode"
-                                               "java-mode"
-                                               "jayces-mode"
-                                               "objc-mode"))
-    (setq c-basic-offset tw))
-   ((indent-control--is-current-major-mode-p '("css-mode"
-                                               "scss-mode"))
-    (setq css-indent-offset tw))
-   ((indent-control--is-current-major-mode-p '("js-mode"
-                                               "json-mode"))
-    (setq js-indent-level tw))
-   ((indent-control--is-current-major-mode-p '("js2-mode"))
-    (setq js2-basic-offset tw))
-   ((indent-control--is-current-major-mode-p '("lisp-mode"
-                                               "lisp-interaction-mode"
-                                               "emacs-lisp-mode"))
-    (setq lisp-body-indent tw))
-   ((indent-control--is-current-major-mode-p '("lua-mode"))
-    (setq lua-indent-level tw))
-   ((indent-control--is-current-major-mode-p '("lua-mode"))
-    (setq lua-indent-level tw))
-   ((indent-control--is-current-major-mode-p '("nasm-mode"))
-    (setq nasm-basic-offset tw))
-   ((indent-control--is-current-major-mode-p '("nxml-mode"))
-    (setq nxml-child-indent tw))
-   ((indent-control--is-current-major-mode-p '("python-mode"))
-    (setq py-indent-offset tw))
-   ((indent-control--is-current-major-mode-p '("ruby-mode"))
-    (setq ruby-indent-level tw))
-   ((indent-control--is-current-major-mode-p '("rust-mode"))
-    (setq rust-indent-offset tw))
-   ((indent-control--is-current-major-mode-p '("shader-mode"))
-    (setq shader-indent-offset tw))
-   ((indent-control--is-current-major-mode-p '("sql-mode"))
-    (setq sql-indent-offset tw))
-   ((indent-control--is-current-major-mode-p '("typescript-mode"))
-    (setq typescript-indent-level tw))
-   ((indent-control--is-current-major-mode-p '("web-mode"))
-    (setq web-mode-markup-indent-offset tw))
-   ((indent-control--is-current-major-mode-p '("yaml-mode"))
-    (setq yaml-indent-offset tw))
-   (t
-    (setq tab-width tw)))
-  (if tw
-      (progn
-        (indent-control--set-tab-width-record-by-mode tw)
-        (message "Current indent level: %s" tw))
-    (message "No indent offset defined in major mode: %s" major-mode)))
+;;
+;; (@* "Core" )
+;;
 
-(defun indent-control--get-tab-width-by-mode ()
+(defun indent-control--indent-level-by-mode ()
+  "Return indentation level variable as symbol depends on current major mode."
+  (cond
+   ((indent-control--major-mode-p '("actionscript-mode")) (quote actionscript-indent-level))
+   ((indent-control--major-mode-p '("cc-mode"
+                                    "c-mode"
+                                    "c++-mode"
+                                    "csharp-mode"
+                                    "java-mode"
+                                    "jayces-mode"
+                                    "objc-mode")) (quote c-basic-offset))
+   ((indent-control--major-mode-p '("css-mode"
+                                    "less-css-mode"
+                                    "scss-mode")) (quote css-indent-offset))
+   ((indent-control--major-mode-p '("ssass-mode")) (quote ssass-tab-width))
+   ((indent-control--major-mode-p '("groovy-mode")) (quote groovy-indent-offset))
+   ((indent-control--major-mode-p '("js-mode")) (quote js-indent-level))
+   ((indent-control--major-mode-p '("js2-mode")) (quote js2-basic-offset))
+   ((indent-control--major-mode-p '("lisp-mode"
+                                    "lisp-interaction-mode"
+                                    "emacs-lisp-mode")) (quote lisp-body-indent))
+   ((indent-control--major-mode-p '("lua-mode")) (quote lua-indent-level))
+   ((indent-control--major-mode-p '("nasm-mode")) (quote nasm-basic-offset))
+   ((indent-control--major-mode-p '("nxml-mode")) (quote nxml-child-indent))
+   ((indent-control--major-mode-p '("python-mode")) (quote py-indent-offset))
+   ((indent-control--major-mode-p '("rjsx-mode")) (quote js-indent-level))
+   ((indent-control--major-mode-p '("ruby-mode")) (quote ruby-indent-level))
+   ((indent-control--major-mode-p '("rust-mode")) (quote rust-indent-offset))
+   ((indent-control--major-mode-p '("shader-mode")) (quote shader-indent-offset))
+   ((indent-control--major-mode-p '("sql-mode")) (quote sql-indent-offset))
+   ((indent-control--major-mode-p '("typescript-mode")) (quote typescript-indent-level))
+   ((indent-control--major-mode-p '("web-mode"))
+    (quote (web-mode-markup-indent-offset
+            web-mode-css-indent-offset
+            web-mode-code-indent-offset)))
+   ((indent-control--major-mode-p '("yaml-mode")) (quote yaml-indent-offset))
+   (t (quote tab-width))))
+
+(defun indent-control-set-indent-level-by-mode (tw)
+  "Set the tab width (TW) for current major mode."
+  (let ((var-symbol (indent-control--indent-level-by-mode)))
+    (cond ((listp var-symbol) (dolist (indent-var var-symbol) (set indent-var tw)))
+          (t (set var-symbol tw))))
+  (when (integerp tw)
+    (indent-control--set-indent-level-record-by-mode tw)
+    (indent-control--no-log-apply
+      (message "[INFO] Current indent level: %s" tw))))
+
+(defun indent-control-get-indent-level-by-mode ()
   "Get indentation level by mode."
-  (cond
-   ((indent-control--is-current-major-mode-p '("actionscript-mode"))
-    actionscript-indent-level)
-   ((indent-control--is-current-major-mode-p '("cc-mode"
-                                               "c-mode"
-                                               "c++-mode"
-                                               "csharp-mode"
-                                               "java-mode"
-                                               "jayces-mode"
-                                               "objc-mode"))
-    c-basic-offset)
-   ((indent-control--is-current-major-mode-p '("css-mode"))
-    css-indent-offset)
-   ((indent-control--is-current-major-mode-p '("js-mode"
-                                               "json-mode"))
-    js-indent-level)
-   ((indent-control--is-current-major-mode-p '("js2-mode"))
-    js2-basic-offset)
-   ((indent-control--is-current-major-mode-p '("lisp-mode"
-                                               "lisp-interaction-mode"
-                                               "emacs-lisp-mode"))
-    lisp-body-indent)
-   ((indent-control--is-current-major-mode-p '("lua-mode"))
-    lua-indent-level)
-   ((indent-control--is-current-major-mode-p '("nasm-mode"))
-    nasm-basic-offset)
-   ((indent-control--is-current-major-mode-p '("nxml-mode"))
-    nxml-child-indent)
-   ((indent-control--is-current-major-mode-p '("python-mode"))
-    py-indent-offset)
-   ((indent-control--is-current-major-mode-p '("ruby-mode"))
-    ruby-indent-level)
-   ((indent-control--is-current-major-mode-p '("rust-mode"))
-    rust-indent-offset)
-   ((indent-control--is-current-major-mode-p '("shader-mode"))
-    shader-indent-offset)
-   ((indent-control--is-current-major-mode-p '("sql-mode"))
-    sql-indent-offset)
-   ((indent-control--is-current-major-mode-p '("typescript-mode"))
-    typescript-indent-level)
-   ((indent-control--is-current-major-mode-p '("web-mode"))
-    web-mode-markup-indent-offset)
-   ((indent-control--is-current-major-mode-p '("yaml-mode"))
-    yaml-indent-offset)
-   (t tab-width)))
+  (let ((var-symbol (indent-control--indent-level-by-mode)))
+    (when (listp var-symbol) (setq var-symbol (nth 0 var-symbol)))
+    (symbol-value var-symbol)))
 
-(defun indent-control--set-tab-width-record-by-mode (tw &optional mn)
-  "Set the tab width record by MN with tab width TW."
+(defun indent-control--delta-ensure-valid-tab-width (cv dv)
+  "Change tab width by current value CV and delta value (DV)."
+  (indent-control--clamp-integer
+   (+ cv dv) indent-control-min-indentation-level indent-control-max-indentation-level))
+
+(defun indent-control--delta-tab-width (dv)
+  "Increase/Decrease tab width by delta value (DV)."
+  (let ((indent-level (indent-control-get-indent-level-by-mode)))
+    (indent-control-set-indent-level-by-mode
+     (indent-control--delta-ensure-valid-tab-width indent-level dv))))
+
+(defun indent-control--set-indent-level-record-by-mode (tw &optional mn)
+  "Set the tab width record by mode name MN with tab width TW."
   (unless mn (setq mn major-mode))
-  (let ((index 0)
-        (break-it nil))
-    (while (and (< index (length indent-control-records))
-                (not break-it))
-      (let ((record-mode-name (car (nth index indent-control-records))))
+  (let ((index 0) (len (length indent-control-records)) break-it)
+    (while (and (not break-it) (< index len))
+      (let* ((record (nth index indent-control-records))
+             (record-mode-name (car record)))
         (when (equal mn record-mode-name)
           (setf (cdr (nth index indent-control-records)) tw)
           (setq break-it t)))
       (setq index (1+ index)))
     (unless break-it
-      (message "Tab width record not found: %s" mn))))
+      (message "[WARNING] Indentation level record not found: %s" mn))))
 
-(defun indent-control--get-tab-width-record-by-mode (&optional mn)
-  "Get the tab width record by MN."
+(defun indent-control--get-indent-level-record-by-mode (&optional mn)
+  "Get the tab width record by mode name, MN."
   (unless mn (setq mn major-mode))
-  (let ((index 0)
-        (break-it nil)
-        (target-tab-width nil))
-    (while (and (< index (length indent-control-records))
-                (not break-it))
-      (let ((record-mode-name (car (nth index indent-control-records)))
-            (record-tab-width (cdr (nth index indent-control-records))))
+  (let ((index 0) (len (length indent-control-records)) break-it
+        ;; Have default to `tab-width'.
+        (target-tab-width tab-width))
+    (while (and (not break-it) (< index len))
+      (let* ((record (nth index indent-control-records))
+             (record-mode-name (car record)) (record-tab-width (cdr record)))
         (when (equal mn record-mode-name)
-          (setq target-tab-width record-tab-width)
-          (setq break-it t)))
+          (setq target-tab-width record-tab-width
+                break-it t)))
       (setq index (1+ index)))
     target-tab-width))
 
-
-(defun indent-control--clamp-integer (in-val in-min in-max)
-  "Make sure the IN-VAL is between IN-MIN and IN-MAX."
-  (let ((out-result in-val))
-    (cond ((<= in-val in-min) (progn (setq out-result in-min)))
-          ((>= in-val in-max) (progn (setq out-result in-max))))
-    out-result))
-
-(defun indent-control--ensure-valid-tab-width (cv dv)
-  "Change tab width by current value CV and delta value DV."
-  (indent-control--clamp-integer (+ cv dv)
-                                 indent-control-min-indentation-level
-                                 indent-control-max-indentation-level))
-
-(defun indent-control--delta-tab-width (dv)
-  "Increase/Decrease tab width by delta value DV."
-  (indent-control--set-tab-width-by-mode (indent-control--ensure-valid-tab-width (indent-control--get-tab-width-by-mode) dv)))
-
 (defun indent-control--prog-mode-hook ()
   "Programming language mode hook."
-  (let ((inhibit-message t)
-        (message-log-max nil))
+  (indent-control--mute-apply
     (indent-control-continue-with-tab-width-record)))
 (add-hook 'prog-mode-hook #'indent-control--prog-mode-hook)
 
 ;;;###autoload
 (defun indent-control-inc-indent-level ()
-  "Increase tab width by 2."
+  "Increase indent level by one level, default is 2."
   (interactive)
   (indent-control--delta-tab-width indent-control-delta)
   (indent-for-tab-command))
 
 ;;;###autoload
 (defun indent-control-dec-indent-level ()
-  "Decrease tab width by 2."
+  "Decrease indent level by one level, default is 2."
   (interactive)
   (indent-control--delta-tab-width (- 0 indent-control-delta))
   (indent-for-tab-command))
@@ -279,7 +249,7 @@
 ;;;###autoload
 (defun indent-control-continue-with-tab-width-record ()
   "Keep the tab width the same as last time modified."
-  (indent-control--set-tab-width-by-mode (indent-control--get-tab-width-record-by-mode)))
+  (indent-control-set-indent-level-by-mode (indent-control--get-indent-level-record-by-mode)))
 
 (provide 'indent-control)
 ;;; indent-control.el ends here
