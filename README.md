@@ -1,13 +1,11 @@
 [![Build Status](https://travis-ci.com/jcs-elpa/indent-control.svg?branch=master)](https://travis-ci.com/jcs-elpa/indent-control)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-
 # indent-control
-> Generic control the indentation level for each mode.
+> Management for indentation level.
 
 Interface that combine all the indentation variables from each major mode
 to one giant list.
-
 
 ## Features
 
@@ -15,7 +13,6 @@ to one giant list.
 * Keep the indentation level across buffers. If you changed the indentation level
 in `buffer A` and switch to `buffer B` with the same major mode; they will have 
 the same indentation level.
-
 
 ## Usage
 
@@ -75,7 +72,6 @@ so you would have to do the following.
   (indent-control-continue-with-tab-width-record))
 (add-hook 'actionscript-mode-hook #'my-actionscript-mode-hook)
 ```
-
 
 ## Contribution
 
