@@ -212,7 +212,8 @@
           (setq break-it t)))
       (setq index (1+ index)))
     (unless break-it
-      (message "[WARNING] Indentation level record not found: %s" mn))))
+      (indent-control--no-log-apply
+        (message "[WARNING] Indentation level record not found: %s" mn)))))
 
 (defun indent-control--get-indent-level-record-by-mode (&optional mn)
   "Get the tab width record by mode name, MN."
@@ -252,8 +253,7 @@
 ;;;###autoload
 (defun indent-control-continue-with-tab-width-record ()
   "Keep the tab width the same as last time modified."
-  (indent-control-set-indent-level-by-mode (indent-control--get-indent-level-record-by-mode))
-  (message "test load"))
+  (indent-control-set-indent-level-by-mode (indent-control--get-indent-level-record-by-mode)))
 
 ;; NOTE: Initial the indent level once after module is loaded.
 ;;;###autoload
