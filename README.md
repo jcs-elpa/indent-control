@@ -41,7 +41,7 @@ that you currently on.
 * `indent-control-inc-indent-level`
 * `indent-control-dec-indent-level`
 
-You can tweak variable `indent-control-delta` change the size of the one
+You can tweak variable `indent-control-delta` to change the size of the one
 indentation level. The default value is `2`.
 
 ### Make indentation work across all modes
