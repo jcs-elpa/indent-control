@@ -29,18 +29,7 @@ indentation level for each major mode.
     (css-mode              . 2)
     (elisp-mode            . 2)
     (emacs-lisp-mode       . 2)
-    (java-mode             . 4)
-    (js-mode               . 4)
-    (js2-mode              . 4)
-    (json-mode             . 4)
-    (lisp-mode             . 2)
-    (lisp-interaction-mode . 2)
-    (lua-mode              . 4)
-    (nasm-mode             . 4)
-    (nxml-mode             . 2)
-    (objc-mode             . 4)
-    (python-mode           . 4)
-    (ruby-mode             . 4)
+    ...
     (rust-mode             . 4)
     (shader-mode           . 4)
     (sql-mode              . 1)
@@ -56,6 +45,9 @@ that you currently on.
 
 * `indent-control-inc-indent-level`
 * `indent-control-dec-indent-level`
+
+You can tweak variable `indent-control-delta` change the size of the one
+indentation level. The default value is `2`.
 
 ### Make indentation work across all modes
 
