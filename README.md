@@ -26,12 +26,7 @@ indentation level for each major mode.
     (c-mode                . 4)
     (c++-mode              . 4)
     (csharp-mode           . 4)
-    (css-mode              . 2)
-    (elisp-mode            . 2)
-    (emacs-lisp-mode       . 2)
     ...
-    (rust-mode             . 4)
-    (shader-mode           . 4)
     (sql-mode              . 1)
     (typescript-mode       . 4)
     (web-mode              . 2)
