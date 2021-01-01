@@ -47,7 +47,7 @@ indentation level. The default value is `2`.
 ### Make indentation work across all modes
 
 Is easy to make indentation level inherit last time modified in Emacs. 
-Just call `indent-control-continue-with-tab-width-record` function whenever
+Just call `indent-control-continue-with-record` function whenever
 you want to inherit the indentation level. This function is already get called
 in `prog-mode-hook`, but with some major modes that they don't use inherit
 `prog-mode` will not work! You would have to manually called it in each mode's
@@ -57,7 +57,7 @@ so you would have to do the following.
 ```el
 (defun my-actionscript-mode-hook ()
   "My actionscript mode hook."
-  (indent-control-continue-with-tab-width-record))
+  (indent-control-continue-with-record))
 (add-hook 'actionscript-mode-hook #'my-actionscript-mode-hook)
 ```
 

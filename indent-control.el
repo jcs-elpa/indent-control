@@ -36,8 +36,8 @@
 ;;
 ;;   `(actionscript-mode . 4)`
 ;;
-;; If you want to make the indentation level works consistently across all buffer.
-;; You would need to call function `indent-control-continue-with-tab-width-record'
+;; If you want to make the indentation level works consistently across
+;; all buffer.  You would need to call function `indent-control-continue-with-record'
 ;; at the time you want the new buffer is loaded.
 ;;
 
@@ -228,7 +228,7 @@
 (defun indent-control--prog-mode-hook ()
   "Programming language mode hook."
   (indent-control--mute-apply
-    (indent-control-continue-with-tab-width-record)))
+    (indent-control-continue-with-record)))
 (add-hook 'prog-mode-hook #'indent-control--prog-mode-hook)
 
 ;;;###autoload
@@ -246,13 +246,13 @@
   (indent-for-tab-command))
 
 ;;;###autoload
-(defun indent-control-continue-with-tab-width-record ()
+(defun indent-control-continue-with-record ()
   "Keep the tab width the same as last time modified."
   (indent-control-set-indent-level-by-mode (indent-control--indent-level-record)))
 
 ;; NOTE: Initial the indent level once after module is loaded.
 ;;;###autoload
-(indent-control-continue-with-tab-width-record)
+(indent-control-continue-with-record)
 
 (provide 'indent-control)
 ;;; indent-control.el ends here
