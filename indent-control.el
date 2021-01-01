@@ -194,7 +194,9 @@
 (defun indent-control--set-indent-level-record (new-level &optional mode-name)
   "Set NEW-LEVEl to MODE-NAME indent record."
   (unless mode-name (setq mode-name major-mode))
-  (setf (cdr (assoc mode-name indent-control-records)) new-level))
+  (if (assoc mode-name indent-control-records)
+      (setf (cdr (assoc mode-name indent-control-records)) new-level)
+    (warn "Indentation level record not found: %s" mode-name)))
 
 (defun indent-control-set-indent-level-by-mode (new-level)
   "Set the NEW-LEVEL for current major mode."
