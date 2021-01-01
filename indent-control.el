@@ -6,7 +6,7 @@
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
 ;; Description: Management for indentation level.
 ;; Keyword: control indent tab generic level
-;; Version: 0.2.5
+;; Version: 0.3.0
 ;; Package-Requires: ((emacs "26.1"))
 ;; URL: https://github.com/jcs-elpa/indent-control
 
@@ -186,17 +186,17 @@
   (or (cdr (assoc major-mode indent-control-alist))
       (quote tab-width)))
 
-(defun indent-control--indent-level-record (&optional mode-name)
-  "Return record of current indent level by MODE-NAME."
-  (unless mode-name (setq mode-name major-mode))
-  (cdr (assoc mode-name indent-control-records)))
+(defun indent-control--indent-level-record (&optional record-name)
+  "Return record of current indent level by RECORD-NAME."
+  (unless record-name (setq record-name major-mode))
+  (cdr (assoc record-name indent-control-records)))
 
-(defun indent-control--set-indent-level-record (new-level &optional mode-name)
-  "Set NEW-LEVEl to MODE-NAME indent record."
-  (unless mode-name (setq mode-name major-mode))
-  (if (assoc mode-name indent-control-records)
-      (setf (cdr (assoc mode-name indent-control-records)) new-level)
-    (user-error "[WARNING] Indentation level record not found: %s" mode-name)))
+(defun indent-control--set-indent-level-record (new-level &optional record-name)
+  "Set NEW-LEVEL to RECORD-NAME indent record."
+  (unless record-name (setq record-name major-mode))
+  (if (assoc record-name indent-control-records)
+      (setf (cdr (assoc record-name indent-control-records)) new-level)
+    (user-error "[WARNING] Indentation level record not found: %s" record-name)))
 
 (defun indent-control-set-indent-level-by-mode (new-level)
   "Set the NEW-LEVEL for current major mode."
