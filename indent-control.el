@@ -251,14 +251,14 @@
 
 ;;;###autoload
 (defun indent-control-inc-indent-level ()
-  "Increase indent level by one level, default is 2."
+  "Increase indent level by one level."
   (interactive)
   (indent-control--delta-tab-width indent-control-delta)
   (indent-for-tab-command))
 
 ;;;###autoload
 (defun indent-control-dec-indent-level ()
-  "Decrease indent level by one level, default is 2."
+  "Decrease indent level by one level."
   (interactive)
   (indent-control--delta-tab-width (- indent-control-delta))
   (indent-for-tab-command))
