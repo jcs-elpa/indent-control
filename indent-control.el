@@ -196,15 +196,15 @@
   (unless mode-name (setq mode-name major-mode))
   (if (assoc mode-name indent-control-records)
       (setf (cdr (assoc mode-name indent-control-records)) new-level)
-    (warn "Indentation level record not found: %s" mode-name)))
+    (user-error "[WARNING] Indentation level record not found: %s" mode-name)))
 
 (defun indent-control-set-indent-level-by-mode (new-level)
   "Set the NEW-LEVEL for current major mode."
   (let ((var-symbol (indent-control--indent-level-name)))
     (cond ((listp var-symbol) (dolist (indent-var var-symbol) (set indent-var new-level)))
           (t (set var-symbol new-level))))
-  (when (integerp new-level)
-    (indent-control--set-indent-level-record new-level)
+  (when (and (integerp new-level)
+             (indent-control--set-indent-level-record new-level))
     (indent-control--no-log-apply
       (message "[INFO] Current indent level: %s" new-level))))
 
