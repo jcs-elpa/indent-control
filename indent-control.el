@@ -120,7 +120,8 @@
     (typescript-mode       . typescript-indent-level)
     (web-mode              . (web-mode-markup-indent-offset
                               web-mode-css-indent-offset
-                              web-mode-code-indent-offset))
+                              web-mode-code-indent-offset
+                              web-mode-sql-indent-offset))
     (yaml-mode             . yaml-indent-offset))
   "AList that maps `major-mode' to each major-mode's indent level variable name."
   :type 'list
