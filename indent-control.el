@@ -93,7 +93,8 @@
   '((actionscript-mode     . actionscript-indent-level)
     (c-mode                . c-basic-offset)
     (c++-mode              . c-basic-offset)
-    (csharp-mode           . c-basic-offset)
+    (csharp-mode           . (c-basic-offset
+                              csharp-mode-indent-offset))
     (java-mode             . c-basic-offset)
     (jayces-mode           . c-basic-offset)
     (objc-mode             . c-basic-offset)
