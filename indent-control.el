@@ -214,16 +214,17 @@
     (when (listp var-symbol) (setq var-symbol (nth 0 var-symbol)))
     (symbol-value var-symbol)))
 
-(defun indent-control--delta-ensure-valid-tab-width (cv dv)
-  "Change tab width by current value CV and delta value (DV)."
+(defun indent-control--delta-ensure-valid-tab-width (current-value delta-value)
+  "Change tab width by CURRENT-VALUE and DELTA-VALUE."
   (indent-control--clamp-integer
-   (+ cv dv) indent-control-min-indentation-level indent-control-max-indentation-level))
+   (+ current-value delta-value)
+   indent-control-min-indentation-level indent-control-max-indentation-level))
 
-(defun indent-control--delta-tab-width (dv)
-  "Increase/Decrease tab width by delta value (DV)."
+(defun indent-control--delta-indent-level (delta-value)
+  "Increase/Decrease tab width by DELTA-VALUE."
   (let ((indent-level (indent-control-get-indent-level-by-mode)))
     (indent-control-set-indent-level-by-mode
-     (indent-control--delta-ensure-valid-tab-width indent-level dv))))
+     (indent-control--delta-ensure-valid-tab-width indent-level delta-value))))
 
 (defun indent-control--prog-mode-hook ()
   "Programming language mode hook."
@@ -235,14 +236,14 @@
 (defun indent-control-inc-indent-level ()
   "Increase indent level by one level."
   (interactive)
-  (indent-control--delta-tab-width indent-control-delta)
+  (indent-control--delta-indent-level indent-control-delta)
   (indent-for-tab-command))
 
 ;;;###autoload
 (defun indent-control-dec-indent-level ()
   "Decrease indent level by one level."
   (interactive)
-  (indent-control--delta-tab-width (- indent-control-delta))
+  (indent-control--delta-indent-level (- indent-control-delta))
   (indent-for-tab-command))
 
 ;;;###autoload
