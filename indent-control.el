@@ -164,17 +164,17 @@
         ((>= in-val in-max) (setq in-val in-max)))
   in-val)
 
-(defun indent-control--major-mode-p (mns)
-  "Check if this major mode MNS."
-  (cond ((stringp mns) (string= (symbol-name major-mode) mns))
-        ((listp mns)
-         (let ((index 0) (len (length mns)) current-mode-name found)
+(defun indent-control--major-mode-p (name)
+  "Return non-nil if NAME is current variable `major-mode'."
+  (cond ((stringp name) (string= (symbol-name major-mode) name))
+        ((listp name)
+         (let ((index 0) (len (length name)) current-mode-name found)
            (while (and (not found) (< index len))
-             (setq current-mode-name (nth index mns)
+             (setq current-mode-name (nth index name)
                    found (indent-control--major-mode-p current-mode-name)
                    index (1+ index)))
            found))
-        ((symbolp mns) (equal major-mode mns))
+        ((symbolp name) (equal major-mode name))
         (t nil)))
 
 ;;
