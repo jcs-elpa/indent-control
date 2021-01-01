@@ -259,7 +259,7 @@
 (defun indent-control-dec-indent-level ()
   "Decrease indent level by one level, default is 2."
   (interactive)
-  (indent-control--delta-tab-width (- 0 indent-control-delta))
+  (indent-control--delta-tab-width (- indent-control-delta))
   (indent-for-tab-command))
 
 ;;;###autoload
