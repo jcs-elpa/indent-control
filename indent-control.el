@@ -226,12 +226,6 @@
     (indent-control-set-indent-level-by-mode
      (indent-control--delta-ensure-valid-tab-width indent-level delta-value))))
 
-(defun indent-control--prog-mode-hook ()
-  "Programming language mode hook."
-  (indent-control--mute-apply
-    (indent-control-continue-with-record)))
-(add-hook 'prog-mode-hook #'indent-control--prog-mode-hook)
-
 ;;;###autoload
 (defun indent-control-inc-indent-level ()
   "Increase indent level by one level."
@@ -250,6 +244,12 @@
 (defun indent-control-continue-with-record ()
   "Keep the tab width the same as last time modified."
   (indent-control-set-indent-level-by-mode (indent-control--indent-level-record)))
+
+(defun indent-control--prog-mode-hook ()
+  "Programming language mode hook."
+  (indent-control--mute-apply
+    (indent-control-continue-with-record)))
+(add-hook 'prog-mode-hook #'indent-control--prog-mode-hook)
 
 ;; NOTE: Initial the indent level once after module is loaded.
 ;;;###autoload
