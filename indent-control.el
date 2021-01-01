@@ -76,7 +76,7 @@
     (objc-mode             . 4)
     (python-mode           . 4)
     (rjsx-mode             . 2)
-    (ruby-mode             . 4)
+    (ruby-mode             . 2)
     (rust-mode             . 4)
     (scss-mode             . 2)
     (shader-mode           . 4)
@@ -228,7 +228,7 @@
         (message "[WARNING] Indentation level record not found: %s" mn)))))
 
 (defun indent-control--get-indent-level-record-by-mode (&optional mn)
-  "Get the tab width record by mode name, MN."
+  "Get the tab width record by mode name MN."
   (unless mn (setq mn major-mode))
   (let ((index 0) (len (length indent-control-records)) break-it
         ;; Have default to `tab-width'.
