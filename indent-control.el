@@ -181,24 +181,34 @@
 ;; (@* "Core" )
 ;;
 
-(defun indent-control--indent-level-by-mode ()
-  "Return indentation level variable as symbol depends on current major mode."
+(defun indent-control--indent-level-name ()
+  "Return symbol defined as indent level."
   (or (cdr (assoc major-mode indent-control-alist))
       (quote tab-width)))
 
-(defun indent-control-set-indent-level-by-mode (tw)
-  "Set the tab width (TW) for current major mode."
-  (let ((var-symbol (indent-control--indent-level-by-mode)))
-    (cond ((listp var-symbol) (dolist (indent-var var-symbol) (set indent-var tw)))
-          (t (set var-symbol tw))))
-  (when (integerp tw)
-    (indent-control--set-indent-level-record-by-mode tw)
+(defun indent-control--indent-level-record (&optional mode-name)
+  "Return record of current indent level by MODE-NAME."
+  (unless mode-name (setq mode-name major-mode))
+  (cdr (assoc mode-name indent-control-records)))
+
+(defun indent-control--set-indent-level-record (new-level &optional mode-name)
+  "Set NEW-LEVEl to MODE-NAME indent record."
+  (unless mode-name (setq mode-name major-mode))
+  (setf (cdr (assoc mode-name indent-control-records)) new-level))
+
+(defun indent-control-set-indent-level-by-mode (new-level)
+  "Set the NEW-LEVEL for current major mode."
+  (let ((var-symbol (indent-control--indent-level-name)))
+    (cond ((listp var-symbol) (dolist (indent-var var-symbol) (set indent-var new-level)))
+          (t (set var-symbol new-level))))
+  (when (integerp new-level)
+    (indent-control--set-indent-level-record new-level)
     (indent-control--no-log-apply
-      (message "[INFO] Current indent level: %s" tw))))
+      (message "[INFO] Current indent level: %s" new-level))))
 
 (defun indent-control-get-indent-level-by-mode ()
   "Get indentation level by mode."
-  (let ((var-symbol (indent-control--indent-level-by-mode)))
+  (let ((var-symbol (indent-control--indent-level-name)))
     (when (listp var-symbol) (setq var-symbol (nth 0 var-symbol)))
     (symbol-value var-symbol)))
 
@@ -212,36 +222,6 @@
   (let ((indent-level (indent-control-get-indent-level-by-mode)))
     (indent-control-set-indent-level-by-mode
      (indent-control--delta-ensure-valid-tab-width indent-level dv))))
-
-(defun indent-control--set-indent-level-record-by-mode (tw &optional mn)
-  "Set the tab width record by mode name MN with tab width TW."
-  (unless mn (setq mn major-mode))
-  (let ((index 0) (len (length indent-control-records)) break-it)
-    (while (and (not break-it) (< index len))
-      (let* ((record (nth index indent-control-records))
-             (record-mode-name (car record)))
-        (when (equal mn record-mode-name)
-          (setf (cdr (nth index indent-control-records)) tw)
-          (setq break-it t)))
-      (setq index (1+ index)))
-    (unless break-it
-      (indent-control--no-log-apply
-        (message "[WARNING] Indentation level record not found: %s" mn)))))
-
-(defun indent-control--get-indent-level-record-by-mode (&optional mn)
-  "Get the tab width record by mode name MN."
-  (unless mn (setq mn major-mode))
-  (let ((index 0) (len (length indent-control-records)) break-it
-        ;; Have default to `tab-width'.
-        (target-tab-width tab-width))
-    (while (and (not break-it) (< index len))
-      (let* ((record (nth index indent-control-records))
-             (record-mode-name (car record)) (record-tab-width (cdr record)))
-        (when (equal mn record-mode-name)
-          (setq target-tab-width record-tab-width
-                break-it t)))
-      (setq index (1+ index)))
-    target-tab-width))
 
 (defun indent-control--prog-mode-hook ()
   "Programming language mode hook."
@@ -266,7 +246,7 @@
 ;;;###autoload
 (defun indent-control-continue-with-tab-width-record ()
   "Keep the tab width the same as last time modified."
-  (indent-control-set-indent-level-by-mode (indent-control--get-indent-level-record-by-mode)))
+  (indent-control-set-indent-level-by-mode (indent-control--indent-level-record)))
 
 ;; NOTE: Initial the indent level once after module is loaded.
 ;;;###autoload
