@@ -241,6 +241,10 @@
   "Keep the tab width the same as last time modified."
   (indent-control-set-indent-level-by-mode (indent-control--indent-level-record)))
 
+;;
+;; (@* "Setup" )
+;;
+
 (defun indent-control--prog-mode-hook ()
   "Programming language mode hook."
   (indent-control--mute-apply
