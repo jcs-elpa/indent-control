@@ -214,17 +214,13 @@
     (when (listp var-symbol) (setq var-symbol (nth 0 var-symbol)))
     (symbol-value var-symbol)))
 
-(defun indent-control--delta-ensure-valid-tab-width (current-value delta-value)
-  "Change tab width by CURRENT-VALUE and DELTA-VALUE."
-  (indent-control--clamp-integer
-   (+ current-value delta-value)
-   indent-control-min-indentation-level indent-control-max-indentation-level))
-
 (defun indent-control--delta-indent-level (delta-value)
   "Increase/Decrease tab width by DELTA-VALUE."
   (let ((indent-level (indent-control-get-indent-level-by-mode)))
     (indent-control-set-indent-level-by-mode
-     (indent-control--delta-ensure-valid-tab-width indent-level delta-value))))
+     (indent-control--clamp-integer  ; Ensure this is the valid value.
+      (+ indent-level delta-value)
+      indent-control-min-indentation-level indent-control-max-indentation-level))))
 
 ;;;###autoload
 (defun indent-control-inc-indent-level ()
