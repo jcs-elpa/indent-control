@@ -142,6 +142,11 @@
   :type 'integer
   :group 'indent-control)
 
+(defcustom indent-control-prefer-indent-size 4
+  "Prefer indent size."
+  :type 'integer
+  :group 'indent-control)
+
 ;;
 ;; (@* "Util" )
 ;;
@@ -212,7 +217,9 @@
   "Get indentation level by mode."
   (let ((var-symbol (indent-control--indent-level-name)))
     (when (listp var-symbol) (setq var-symbol (nth 0 var-symbol)))
-    (symbol-value var-symbol)))
+    (when (and (not (symbol-value var-symbol)) (null tab-width))
+      (setq-local tab-width indent-control-prefer-indent-size))
+    (or (symbol-value var-symbol) tab-width)))
 
 (defun indent-control--delta-indent-level (delta-value)
   "Increase/Decrease tab width by DELTA-VALUE."
