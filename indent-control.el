@@ -186,6 +186,10 @@
 ;; (@* "Core" )
 ;;
 
+(defun indent-control-ensure-tab-width ()
+  "Ensure variable `tab-width' is having a valid value."
+  (when (null tab-width) (setq-local tab-width indent-control-prefer-indent-size)))
+
 (defun indent-control--indent-level-name ()
   "Return symbol defined as indent level."
   (or (cdr (assoc major-mode indent-control-alist))
@@ -201,6 +205,7 @@
   (unless record-name (setq record-name major-mode))
   (if (assoc record-name indent-control-records)
       (setf (cdr (assoc record-name indent-control-records)) new-level)
+    (indent-control-ensure-tab-width)
     (user-error "[WARNING] Indentation level record not found: %s" record-name)))
 
 (defun indent-control-set-indent-level-by-mode (new-level)
@@ -217,8 +222,7 @@
   "Get indentation level by mode."
   (let ((var-symbol (indent-control--indent-level-name)))
     (when (listp var-symbol) (setq var-symbol (nth 0 var-symbol)))
-    (when (and (not (symbol-value var-symbol)) (null tab-width))
-      (setq-local tab-width indent-control-prefer-indent-size))
+    (unless (symbol-value var-symbol) (indent-control-ensure-tab-width))
     (or (symbol-value var-symbol) tab-width)))
 
 (defun indent-control--delta-indent-level (delta-value)
