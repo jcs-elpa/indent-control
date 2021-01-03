@@ -186,6 +186,7 @@
 ;; (@* "Core" )
 ;;
 
+;;;###autoload
 (defun indent-control-ensure-tab-width ()
   "Ensure variable `tab-width' is having a valid value."
   (when (null tab-width) (setq-local tab-width indent-control-prefer-indent-size)))
