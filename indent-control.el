@@ -261,11 +261,18 @@
   "Programming language mode hook."
   (indent-control--mute-apply
     (indent-control-continue-with-record)))
-(add-hook 'prog-mode-hook #'indent-control--prog-mode-hook)
 
-;; NOTE: Initial the indent level once after module is loaded.
 ;;;###autoload
-(indent-control-continue-with-record)
+(define-minor-mode indent-control-mode
+  "Minor mode 'indent-control-mode'."
+  :global t
+  :require 'indent-control
+  :group 'indent-control
+  (if indent-control-mode
+      (progn
+        (add-hook 'prog-mode-hook #'indent-control--prog-mode-hook)
+        (indent-control-continue-with-record))
+    (remove-hook 'prog-mode-hook #'indent-control--prog-mode-hook)))
 
 (provide 'indent-control)
 ;;; indent-control.el ends here
