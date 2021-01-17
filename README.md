@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.com/jcs-elpa/indent-control.svg?branch=master)](https://travis-ci.com/jcs-elpa/indent-control)
+[![MELPA](https://melpa.org/packages/indent-control-badge.svg)](https://melpa.org/#/indent-control)
+[![MELPA Stable](https://stable.melpa.org/packages/indent-control-badge.svg)](https://stable.melpa.org/#/indent-control)
 [![Release Tag](https://img.shields.io/github/v/release/jcs-elpa/indent-control.svg)](https://github.com/jcs-elpa/indent-control/releases/latest)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
