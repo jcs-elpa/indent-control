@@ -259,8 +259,7 @@
 
 (defun indent-control--prog-mode-hook ()
   "Programming language mode hook."
-  (indent-control--mute-apply
-    (indent-control-continue-with-record)))
+  (indent-control--mute-apply (indent-control-continue-with-record)))
 
 ;;;###autoload
 (define-minor-mode indent-control-mode
@@ -271,7 +270,7 @@
   (if indent-control-mode
       (progn
         (add-hook 'prog-mode-hook #'indent-control--prog-mode-hook)
-        (indent-control-continue-with-record))
+        (indent-control--prog-mode-hook))  ; Activate it immediately
     (remove-hook 'prog-mode-hook #'indent-control--prog-mode-hook)))
 
 (provide 'indent-control)
