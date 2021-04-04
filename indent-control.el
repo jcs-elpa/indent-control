@@ -56,6 +56,8 @@
     (csharp-mode           . 4)
     (css-mode              . 2)
     (dockerfile-mode       . 2)
+    (elixir-mode           . 2)
+    (elm-mode              . 4)
     (elisp-mode            . 2)
     (emacs-lisp-mode       . 2)
     (go-mode               . 4)
@@ -95,6 +97,8 @@
     (c++-mode              . c-basic-offset)
     (csharp-mode           . (c-basic-offset
                               csharp-mode-indent-offset))
+    (elixir-mode           . elixir-smie-indent-basic)
+    (elm-mode              . elm-indent-offset)
     (java-mode             . c-basic-offset)
     (jayces-mode           . c-basic-offset)
     (objc-mode             . c-basic-offset)
