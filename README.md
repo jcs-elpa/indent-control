@@ -1,10 +1,11 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![MELPA](https://melpa.org/packages/indent-control-badge.svg)](https://melpa.org/#/indent-control)
 [![MELPA Stable](https://stable.melpa.org/packages/indent-control-badge.svg)](https://stable.melpa.org/#/indent-control)
-[![CI](https://github.com/jcs-elpa/indent-control/actions/workflows/test.yml/badge.svg)](https://github.com/jcs-elpa/indent-control/actions/workflows/test.yml)
 
 # indent-control
 > Management for indentation level.
+
+[![CI](https://github.com/jcs-elpa/indent-control/actions/workflows/test.yml/badge.svg)](https://github.com/jcs-elpa/indent-control/actions/workflows/test.yml)
 
 Interface that combine all the indentation variables from each major mode
 to one giant list.
