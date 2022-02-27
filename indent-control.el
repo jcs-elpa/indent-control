@@ -206,8 +206,7 @@
 
 (defun indent-control--indent-level-record (&optional record-name)
   "Return record of current indent level by RECORD-NAME."
-  (unless record-name (setq record-name major-mode))
-  (cdr (assoc record-name indent-control-records)))
+  (cdr (assoc (or record-name major-mode) indent-control-records)))
 
 (defun indent-control--set-indent-level-record (new-level &optional record-name)
   "Set NEW-LEVEL to RECORD-NAME indent record."
