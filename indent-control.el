@@ -4,11 +4,10 @@
 ;; Created date 2019-07-30 09:37:44
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
-;; Description: Management for indentation level.
-;; Keyword: control indent tab generic level
+;; URL: https://github.com/jcs-elpa/indent-control
 ;; Version: 0.3.4
 ;; Package-Requires: ((emacs "26.1"))
-;; URL: https://github.com/jcs-elpa/indent-control
+;; Keywords: control indent tab generic level
 
 ;; This file is NOT part of GNU Emacs.
 

@@ -2,6 +2,9 @@
          "0.3.4"
          "Management for indentation level")
 
+(website-url "https://github.com/jcs-elpa/indent-control")
+(keywords "control" "indent" "tab" "generic" "level")
+
 (package-file "indent-control.el")
 
 (source "melpa")
