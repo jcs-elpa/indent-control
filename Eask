@@ -3,7 +3,7 @@
          "Management for indentation level")
 
 (website-url "https://github.com/jcs-elpa/indent-control")
-(keywords "control" "indent" "tab" "generic" "level")
+(keywords "convenience" "control" "indent" "tab" "generic" "level")
 
 (package-file "indent-control.el")
 
