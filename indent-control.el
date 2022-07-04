@@ -7,7 +7,7 @@
 ;; URL: https://github.com/jcs-elpa/indent-control
 ;; Version: 0.3.4
 ;; Package-Requires: ((emacs "26.1"))
-;; Keywords: control indent tab generic level
+;; Keywords: convenience control indent tab generic level
 
 ;; This file is NOT part of GNU Emacs.
 
