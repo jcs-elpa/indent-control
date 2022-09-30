@@ -240,20 +240,18 @@
 (defmacro indent-control--mute-apply (&rest body)
   "Execute BODY without message."
   (declare (indent 0) (debug t))
-  `(let ((message-log-max nil))
+  `(let (message-log-max)
      (with-temp-message (or (current-message) nil)
-       (let ((inhibit-message t)) (progn ,@body)))))
+       (let ((inhibit-message t)) ,@body))))
 
 (defmacro indent-control--no-log-apply (&rest body)
   "Execute BODY without write it to message buffer."
   (declare (indent 0) (debug t))
-  `(let ((message-log-max nil)) (progn ,@body)))
+  `(let (message-log-max) ,@body))
 
-(defun indent-control--clamp-integer (in-val in-min in-max)
-  "Make sure the IN-VAL is between IN-MIN and IN-MAX."
-  (cond ((<= in-val in-min) (setq in-val in-min))
-        ((>= in-val in-max) (setq in-val in-max)))
-  in-val)
+(defun indent-control--clamp-integer (val min max)
+  "Make sure the VAL is between MIN and MAX."
+  (max (min val max) min))
 
 (defun indent-control--major-mode-p (name)
   "Return non-nil if NAME is current variable `major-mode'."
@@ -348,7 +346,7 @@
 
 ;;;###autoload
 (define-minor-mode indent-control-mode
-  "Minor mode 'indent-control-mode'."
+  "Minor mode `indent-control-mode'."
   :global t
   :require 'indent-control
   :group 'indent-control
