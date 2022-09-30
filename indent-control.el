@@ -63,7 +63,6 @@
     (dockerfile-mode       . 2)
     (elixir-mode           . 2)
     (elm-mode              . 4)
-    (elisp-mode            . 2)
     (emacs-lisp-mode       . 2)
     (go-mode               . 4)
     (groovy-mode           . 4)
@@ -110,15 +109,15 @@
     (cperl-mode            . cperl-indent-level)
     (crystal-mode          . crystal-indent-level)
     (csharp-mode           . (c-basic-offset csharp-mode-indent-offset))
-    (elixir-mode           . elixir-smie-indent-basic)
-    (elm-mode              . elm-indent-offset)
     (css-mode              . css-indent-offset)
     (less-css-mode         . css-indent-offset)
     (scss-mode             . css-indent-offset)
     (ssass-mode            . ssass-tab-width)
     (dockerfile-mode       . dockerfile-indent-offset)
     (d-mode                . c-basic-offset)
-    (emacs-lisp-mode       . lisp-indent-offset)
+    (elixir-mode           . elixir-smie-indent-basic)
+    (elm-mode              . elm-indent-offset)
+    (emacs-lisp-mode       . lisp-body-indent)
     (enh-ruby-mode         . enh-ruby-indent-level)
     (erlang-mode           . erlang-indent-level)
     (ess-mode              . ess-indent-offset)
@@ -160,7 +159,6 @@
     (lisp-mode             . lisp-body-indent)
     (lisp-interaction-mode . lisp-body-indent)
     (livescript-mode       . livescript-tab-width)
-    (emacs-lisp-mode       . lisp-body-indent)
     (lua-mode              . lua-indent-level)
     (matlab-mode           . matlab-indent-level)
     (meson-mode            . meson-indent-basic)
@@ -223,7 +221,7 @@
   :type 'integer
   :group 'indent-control)
 
-(defcustom indent-control-max-indentation-level 8
+(defcustom indent-control-max-indentation-level 12
   "Maximum indentation level can be set to."
   :type 'integer
   :group 'indent-control)
@@ -263,8 +261,7 @@
                    found (indent-control--major-mode-p current-mode-name)
                    index (1+ index)))
            found))
-        ((symbolp name) (equal major-mode name))
-        (t nil)))
+        ((symbolp name) (equal major-mode name))))
 
 ;;
 ;; (@* "Core" )
@@ -295,7 +292,8 @@
 (defun indent-control-set-indent-level-by-mode (new-level)
   "Set the NEW-LEVEL for current major mode."
   (let ((var-symbol (indent-control--indent-level-name)))
-    (cond ((listp var-symbol) (dolist (indent-var var-symbol) (set indent-var new-level)))
+    (cond ((listp var-symbol)
+           (dolist (indent-var var-symbol) (set indent-var new-level)))
           (t (set var-symbol new-level))))
   (when (and (integerp new-level)
              (indent-control--set-indent-level-record new-level))
