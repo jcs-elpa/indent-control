@@ -320,14 +320,14 @@
       indent-control-min-indentation-level indent-control-max-indentation-level))))
 
 ;;;###autoload
-(defun indent-control-inc-indent-level ()
+(defun indent-control-inc ()
   "Increase indent level by one level."
   (interactive)
   (indent-control--delta-indent-level indent-control-delta)
   (indent-for-tab-command))
 
 ;;;###autoload
-(defun indent-control-dec-indent-level ()
+(defun indent-control-dec ()
   "Decrease indent level by one level."
   (interactive)
   (indent-control--delta-indent-level (- indent-control-delta))
@@ -357,6 +357,15 @@
         (add-hook 'prog-mode-hook #'indent-control--prog-mode-hook)
         (indent-control--prog-mode-hook))  ; Activate it immediately
     (remove-hook 'prog-mode-hook #'indent-control--prog-mode-hook)))
+
+;;
+;; (@* "Obsolete" )
+;;
+
+(define-obsolete-function-alias
+  'indent-control-inc-indent-level 'indent-control-inc "0.3.5")
+(define-obsolete-function-alias
+  'indent-control-dec-indent-level 'indent-control-dec "0.3.5")
 
 (provide 'indent-control)
 ;;; indent-control.el ends here

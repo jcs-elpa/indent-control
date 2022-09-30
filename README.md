@@ -40,8 +40,8 @@ indentation level for each major mode.
 These functions will change the current indentation level for the major mode
 that you currently on.
 
-* `indent-control-inc-indent-level`
-* `indent-control-dec-indent-level`
+* `indent-control-inc`
+* `indent-control-dec`
 
 You can tweak variable `indent-control-delta` to change the size of the one
 indentation level. The default value is `2`.
