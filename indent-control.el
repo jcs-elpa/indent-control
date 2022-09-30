@@ -50,10 +50,16 @@
 
 (defcustom indent-control-records
   '((actionscript-mode     . 4)
+    (apache-mode           . 4)
+    (awk-mode              . 4)
+    (bpftrace-mode         . 4)
     (c-mode                . 4)
     (c++-mode              . 4)
+    (cmake-mode            . 2)
+    (coffee-mode           . 4)
     (csharp-mode           . 4)
     (css-mode              . 2)
+    (crystal-mode          . 2)
     (dockerfile-mode       . 2)
     (elixir-mode           . 2)
     (elm-mode              . 4)
@@ -72,6 +78,7 @@
     (lisp-interaction-mode . 2)
     (lua-mode              . 4)
     (nasm-mode             . 4)
+    (nginx-mode            . 4)
     (nix-mode              . 2)
     (nxml-mode             . 2)
     (objc-mode             . 4)
@@ -93,42 +100,114 @@
 
 (defcustom indent-control-alist
   '((actionscript-mode     . actionscript-indent-level)
+    (apache-mode           . apache-indent-level)
+    (awk-mode              . c-basic-offset)
+    (bpftrace-mode         . c-basic-offset)
     (c-mode                . c-basic-offset)
     (c++-mode              . c-basic-offset)
-    (csharp-mode           . (c-basic-offset
-                              csharp-mode-indent-offset))
+    (cmake-mode            . cmake-tab-width)
+    (coffee-mode           . coffee-tab-width)
+    (cperl-mode            . cperl-indent-level)
+    (crystal-mode          . crystal-indent-level)
+    (csharp-mode           . (c-basic-offset csharp-mode-indent-offset))
     (elixir-mode           . elixir-smie-indent-basic)
     (elm-mode              . elm-indent-offset)
-    (java-mode             . c-basic-offset)
-    (jayces-mode           . c-basic-offset)
-    (objc-mode             . c-basic-offset)
     (css-mode              . css-indent-offset)
     (less-css-mode         . css-indent-offset)
     (scss-mode             . css-indent-offset)
     (ssass-mode            . ssass-tab-width)
+    (dockerfile-mode       . dockerfile-indent-offset)
+    (d-mode                . c-basic-offset)
+    (emacs-lisp-mode       . lisp-indent-offset)
+    (enh-ruby-mode         . enh-ruby-indent-level)
+    (erlang-mode           . erlang-indent-level)
+    (ess-mode              . ess-indent-offset)
+    (f90-mode              . (f90-associate-indent
+                              f90-continuation-indent
+                              f90-critical-indent
+                              f90-do-indent
+                              f90-if-indent
+                              f90-program-indent
+                              f90-type-indent))
+    (feature-mode          . (feature-indent-offset
+                              feature-indent-level))
+    (fsharp-mode           . (fsharp-continuation-offset
+                              fsharp-indent-level
+                              fsharp-indent-offset))
     (groovy-mode           . groovy-indent-offset)
+    (haskell-mode          . (haskell-indent-spaces
+                              haskell-indent-offset
+                              haskell-indentation-layout-offset
+                              haskell-indentation-left-offset
+                              haskell-indentation-starter-offset
+                              haskell-indentation-where-post-offset
+                              haskell-indentation-where-pre-offset
+                              shm-indent-spaces))
+    (haxe-mode             . c-basic-offset)
+    (haxor-mode            . haxor-tab-width)
+    (idl-mode              . c-basic-offset)
+    (jade-mode             . jade-tab-width)
+    (java-mode             . c-basic-offset)
     (javascript-mode       . js-indent-level)
+    (jayces-mode           . c-basic-offset)
     (js-mode               . js-indent-level)
     (js2-mode              . js2-basic-offset)
+    (js2-jsx-mode          . (js2-basic-offset sgml-basic-offset))
+    (js3-mode              . js3-indent-level)
     (json-mode             . js-indent-level)
+    (julia-mode            . julia-indent-offset)
+    (kotlin-mode           . kotlin-tab-width)
     (lisp-mode             . lisp-body-indent)
     (lisp-interaction-mode . lisp-body-indent)
+    (livescript-mode       . livescript-tab-width)
     (emacs-lisp-mode       . lisp-body-indent)
     (lua-mode              . lua-indent-level)
+    (matlab-mode           . matlab-indent-level)
+    (meson-mode            . meson-indent-basic)
+    (mips-mode             . mips-tab-width)
+    (mustache-mode         . mustache-basic-offset)
     (nasm-mode             . nasm-basic-offset)
-    (nxml-mode             . nxml-child-indent)
+    (nginx-mode            . nginx-indent-level)
+    (nxml-mode             . (nxml-child-indent nxml-attribute-indent))
+    (objc-mode             . c-basic-offset)
+    (octave-mode           . octave-block-offset)
+    (perl-mode             . perl-indent-level)
+    (php-mode              . c-basic-offset)
+    (pike-mode             . c-basic-offset)
+    (ps-mode               . ps-mode-tab)
+    (pug-mode              . pug-tab-width)
+    (puppet-mode           . puppet-indent-level)
     (python-mode           . py-indent-offset)
-    (rjsx-mode             . js-indent-level)
+    (rjsx-mode             . (js-indent-level sgml-basic-offset))
     (ruby-mode             . ruby-indent-level)
     (rust-mode             . rust-indent-offset)
-    (sh-mode               . sh-basic-offset)
+    (rustic-mode           . rustic-indent-offset)
+    (scala-mode            . scala-indent:step)
+    (scss-mode             . css-indent-offset)
+    (sgml-mode             . sgml-basic-offset)
+    (sh-mode               . (sh-basic-offset sh-indentation))
     (shader-mode           . shader-indent-offset)
+    (slim-mode             . slim-indent-offset)
+    (sml-mode              . sml-indent-level)
     (sql-mode              . sql-indent-offset)
+    (tcl-mode              . (tcl-indent-level tcl-continued-indent-level))
+    (terra-mode            . terra-indent-level)
     (typescript-mode       . typescript-indent-level)
-    (web-mode              . (web-mode-markup-indent-offset
-                              web-mode-css-indent-offset
+    (verilog-mode          . (verilog-indent-level
+                              verilog-indent-level-behavioral
+                              verilog-indent-level-declaration
+                              verilog-indent-level-module
+                              verilog-cexp-indent
+                              verilog-case-indent))
+    (web-mode              . (web-mode-attr-indent-offset
+                              web-mode-attr-value-indent-offset
                               web-mode-code-indent-offset
-                              web-mode-sql-indent-offset))
+                              web-mode-css-indent-offset
+                              web-mode-markup-indent-offset
+                              web-mode-sql-indent-offset
+                              web-mode-block-padding
+                              web-mode-script-padding
+                              web-mode-style-padding))
     (yaml-mode             . yaml-indent-offset))
   "AList that maps `major-mode' to each major-mode's indent level variable name."
   :type 'list
