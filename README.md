@@ -10,19 +10,19 @@
 Interface that combine all the indentation variables from each major mode
 to one giant list.
 
-## Features
+## 🏆 Features
 
 * Decouple from user knowing each major mode's indentation level variable. (if have)
 * Keep the indentation level across buffers. If you changed the indentation level
 in `buffer A` and switch to `buffer B` with the same major mode; they will have
 the same indentation level.
 
-## Usage
+## 🔨 Usage
 
 You can tweak variable `indent-control-records ` to set the initial
 indentation level for each major mode.
 
-```el
+```elisp
 (setq indent-control-records
   '((actionscript-mode     . 4)
     (c-mode                . 4)
@@ -58,7 +58,7 @@ You would have to manually called it in each mode's startup hook.
 For instance `actionscript-mode` doesn't inherit `prog-mode` so you would
 have to do the following.
 
-```el
+```elisp
 (defun my-actionscript-mode-hook ()
   "My actionscript mode hook."
   (indent-control-continue-with-record))
