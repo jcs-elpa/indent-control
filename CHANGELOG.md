@@ -11,3 +11,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 * Rename inc/dec commands name (04b7b6b00c88c528fcc0e408b3f6240eff8fc178)
 * Simplify clamp function's logic (d6fad1131d0d8864bc266c80e822e5c48a1509ce)
 * Add more default indent records (f8f5511c4bffb1371bcb3b712b32ae6c832c15bb)
+* Add `Dart` and `GDScript` (4ba467cd54037ff4aa184b8417e2328a9b238ba8)
