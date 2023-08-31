@@ -63,6 +63,7 @@
     (css-mode              . 2)
     (less-css-mode         . 2)
     (scss-mode             . 2)
+    (dart-mode             . 2)
     (dockerfile-mode       . 2)
     (d-mode                . 4)
     (elixir-mode           . 2)
@@ -74,6 +75,7 @@
     (f90-mode              . 2)
     (feature-mode          . 2)
     (fsharp-mode           . 4)
+    (gdscript-mode         . 4)
     (go-mode               . 4)
     (groovy-mode           . 4)
     (haskell-mode          . 4)
@@ -171,6 +173,7 @@
     (fsharp-mode           . (fsharp-continuation-offset
                               fsharp-indent-level
                               fsharp-indent-offset))
+    (gdscript-mode         . gdscript-indent-offset)
     (groovy-mode           . groovy-indent-offset)
     (haskell-mode          . (haskell-indent-spaces
                               haskell-indent-offset
