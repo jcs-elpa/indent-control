@@ -12,3 +12,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 * Simplify clamp function's logic (d6fad1131d0d8864bc266c80e822e5c48a1509ce)
 * Add more default indent records (f8f5511c4bffb1371bcb3b712b32ae6c832c15bb)
 * Add `Dart` and `GDScript` (4ba467cd54037ff4aa184b8417e2328a9b238ba8)
+* Apply `standard-indent` (5d83d5fb581db8eaeb7f200ddc53c15a9b9a8b62)
