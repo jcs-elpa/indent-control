@@ -311,7 +311,10 @@
 ;;;###autoload
 (defun indent-control-ensure-tab-width ()
   "Ensure variable `tab-width' is having a valid value."
-  (when (null tab-width) (setq-local tab-width indent-control-prefer-indent-size)))
+  (when (null tab-width)
+    (setq-local tab-width indent-control-prefer-indent-size))
+  (when (null standard-indent)
+    (setq-local standard-indent indent-control-prefer-indent-size)))
 
 (defun indent-control--indent-level-name ()
   "Return symbol defined as indent level."
@@ -335,7 +338,8 @@
   (let ((var-symbol (indent-control--indent-level-name)))
     (cond ((listp var-symbol)
            (dolist (indent-var var-symbol) (set indent-var new-level)))
-          (t (set var-symbol new-level))))
+          (t (set var-symbol new-level)))
+    (setq-local standard-indent new-level))
   (when (and (integerp new-level)
              (indent-control--set-indent-level-record new-level))
     (indent-control--no-log-apply
