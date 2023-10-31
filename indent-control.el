@@ -86,6 +86,7 @@
     (java-mode             . 4)
     (javascript-mode       . 2)
     (jayces-mode           . 4)
+    (jenkinsfile-mode      . 4)
     (js-mode               . 2)
     (js2-mode              . 2)
     (js2-jsx-mode          . 2)
@@ -175,6 +176,7 @@
                               fsharp-indent-offset))
     (gdscript-mode         . gdscript-indent-offset)
     (groovy-mode           . groovy-indent-offset)
+    (jenkinsfile-mode      . groovy-indent-offset)
     (haskell-mode          . (haskell-indent-spaces
                               haskell-indent-offset
                               haskell-indentation-layout-offset
