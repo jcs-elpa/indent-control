@@ -133,7 +133,8 @@
     (typescript-mode       . 4)
     (verilog-mode          . 3)
     (web-mode              . 2)
-    (yaml-mode             . 2))
+    (yaml-mode             . 2)
+    (zig-mode              . 4))
   "Indent level records for all `major-mode's."
   :type 'list
   :group 'indent-control)
@@ -249,7 +250,8 @@
                               web-mode-block-padding
                               web-mode-script-padding
                               web-mode-style-padding))
-    (yaml-mode             . yaml-indent-offset))
+    (yaml-mode             . yaml-indent-offset)
+    (zig-mode              . zig-indent-offset))
   "AList that maps `major-mode' to each major-mode's indent level variable name."
   :type 'list
   :group 'indent-control)
