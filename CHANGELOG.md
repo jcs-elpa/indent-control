@@ -14,3 +14,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 * Add `Dart` and `GDScript` (4ba467cd54037ff4aa184b8417e2328a9b238ba8)
 * Apply `standard-indent` (5d83d5fb581db8eaeb7f200ddc53c15a9b9a8b62)
 * Add support for `zig-mode` (4ede831b8680946f8e4a6cafd4f522c464160c00)
+* Support Svelte (bf4863c9f7d1d5cadf47b78bebbafc5431361597)
