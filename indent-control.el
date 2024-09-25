@@ -125,6 +125,7 @@
     (sh-mode               . 2)
     (shader-mode           . 4)
     (slim-mode             . 2)
+    (snippet-mode          . 1)
     (sml-mode              . 4)
     (sql-mode              . 1)
     (ssass-mode            . 2)
@@ -315,16 +316,21 @@
 ;;
 
 ;;;###autoload
-(defun indent-control-ensure-tab-width ()
+(defun indent-control-ensure-indentable ()
   "Ensure variable `tab-width' is having a valid value."
   (when (null tab-width)
     (setq-local tab-width indent-control-prefer-indent-size))
   (when (null standard-indent)
     (setq-local standard-indent indent-control-prefer-indent-size)))
 
+(define-obsolete-function-alias
+  'indent-control-ensure-tab-width 'indent-control-ensure-indentable
+  "0.3.5")
+
 (defun indent-control--indent-level-name ()
   "Return symbol defined as indent level."
   (or (cdr (assoc major-mode indent-control-alist))
+      (quote standard-indent)
       (quote tab-width)))
 
 (defun indent-control--indent-level-record (&optional record-name)
