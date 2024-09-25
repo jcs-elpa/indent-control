@@ -344,7 +344,7 @@
   (setq record-name (or record-name major-mode))
   (if (assoc record-name indent-control-records)
       (setf (cdr (assoc record-name indent-control-records)) new-level)
-    (indent-control-ensure-tab-width)
+    (indent-control-ensure-indentable)
     (user-error "[WARNING] Indentation level record not found: %s" record-name)))
 
 (defun indent-control-set-indent-level-by-mode (new-level)
@@ -363,7 +363,7 @@
   "Get indentation level by mode."
   (let ((var-symbol (indent-control--indent-level-name)))
     (when (listp var-symbol) (setq var-symbol (nth 0 var-symbol)))
-    (unless (symbol-value var-symbol) (indent-control-ensure-tab-width))
+    (unless (symbol-value var-symbol) (indent-control-ensure-indentable))
     (or (symbol-value var-symbol) tab-width)))
 
 (defun indent-control--delta-indent-level (delta-value)
