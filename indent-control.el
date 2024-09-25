@@ -319,7 +319,7 @@
 
 ;;;###autoload
 (defun indent-control-ensure-indentable ()
-  "Ensure variable `tab-width' is having a valid value."
+  "Ensure the current major mode are indentable."
   (when (null tab-width)
     (setq-local tab-width indent-control-prefer-indent-size))
   (when (null standard-indent)
