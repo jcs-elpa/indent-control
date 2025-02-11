@@ -364,7 +364,9 @@
   (let ((var-symbol (indent-control--indent-level-name)))
     (when (listp var-symbol) (setq var-symbol (nth 0 var-symbol)))
     (unless (symbol-value var-symbol) (indent-control-ensure-indentable))
-    (or (symbol-value var-symbol) tab-width)))
+    (or (symbol-value var-symbol)
+        standard-indent
+        tab-width)))
 
 (defun indent-control--delta-indent-level (delta-value)
   "Increase/Decrease tab width by DELTA-VALUE."
