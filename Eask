@@ -1,3 +1,5 @@
+;; -*- mode: eask; lexical-binding: t -*-
+
 (package "indent-control"
          "0.3.4"
          "Management for indentation level")
