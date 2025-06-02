@@ -16,3 +16,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 * Add support for `zig-mode` (4ede831b8680946f8e4a6cafd4f522c464160c00)
 * Support Svelte (bf4863c9f7d1d5cadf47b78bebbafc5431361597)
 * feat: Fallback to `standard-indent` as well (d8fcfff53abfb47cc806c99ebb7b151e9fff4811)
+* feat: Add `Magik` support (ea31c8ff353fa5575e4d9a5e4864afe5b4e57949)
