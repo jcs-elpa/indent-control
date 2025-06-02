@@ -1,7 +1,7 @@
 ;; -*- mode: eask; lexical-binding: t -*-
 
 (package "indent-control"
-         "0.3.4"
+         "0.4.0"
          "Management for indentation level")
 
 (website-url "https://github.com/jcs-elpa/indent-control")
