@@ -140,7 +140,7 @@
     (yaml-mode             . 2)
     (zig-mode              . 4))
   "Indent level records for all `major-mode's."
-  :type 'list
+  :type '(list symbol)
   :group 'indent-control)
 
 (defcustom indent-control-alist
@@ -260,7 +260,7 @@
     (yaml-mode             . yaml-indent-offset)
     (zig-mode              . zig-indent-offset))
   "AList that maps `major-mode' to each major-mode's indent level variable name."
-  :type 'list
+  :type '(list symbol)
   :group 'indent-control)
 
 (defcustom indent-control-delta 2
