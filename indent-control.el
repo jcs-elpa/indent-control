@@ -351,6 +351,7 @@
 
 (defun indent-control-set-indent-level-by-mode (new-level)
   "Set the NEW-LEVEL for current major mode."
+  (interactive "NNew indent level: ")
   (let ((var-symbol (indent-control--indent-level-name)))
     (cond ((listp var-symbol)
            (dolist (indent-var var-symbol) (set indent-var new-level)))
@@ -359,7 +360,7 @@
   (when (and (integerp new-level)
              (indent-control--set-indent-level-record new-level))
     (indent-control--no-log-apply
-      (message "[INFO] Current indent level: %s" new-level))))
+      (message "[INFO] The indent level is %s" new-level))))
 
 (defun indent-control-get-indent-level-by-mode ()
   "Get indentation level by mode."
@@ -372,11 +373,12 @@
 
 (defun indent-control--delta-indent-level (delta-value)
   "Increase/Decrease tab width by DELTA-VALUE."
-  (let ((indent-level (indent-control-get-indent-level-by-mode)))
-    (indent-control-set-indent-level-by-mode
-     (indent-control--clamp-integer  ; Ensure this is the valid value.
-      (+ indent-level delta-value)
-      indent-control-min-indentation-level indent-control-max-indentation-level))))
+  (let* ((indent-level (indent-control-get-indent-level-by-mode))
+         ;; Ensure this is the valid value.
+         (new-level (indent-control--clamp-integer (+ indent-level delta-value)
+                                                   indent-control-min-indentation-level
+                                                   indent-control-max-indentation-level)))
+    (indent-control-set-indent-level-by-mode new-level)))
 
 ;;;###autoload
 (defun indent-control-inc ()
