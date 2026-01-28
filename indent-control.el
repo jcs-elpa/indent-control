@@ -360,14 +360,15 @@
   (let* ((current (indent-control-get-indent-level-by-mode))
          (prompt (format "New indent level (current: %s): " current))
          (vars (indent-control--indent-level-names))
-         (new-level (or new-level (read-number prompt))))
+         (new-level (or new-level (and (called-interactively-p 'interactive)
+                                       (read-number prompt)))))
     (dolist (var vars)
       (set var new-level))
-    (setq-local standard-indent new-level))
-  (when (and (integerp new-level)
-             (indent-control--set-indent-level-record new-level))
-    (indent-control--no-log-apply
-      (message "[INFO] The indent level is %s" new-level))))
+    (setq-local standard-indent new-level)
+    (when (and (integerp new-level)
+               (indent-control--set-indent-level-record new-level))
+      (indent-control--no-log-apply
+        (message "[INFO] The indent level is %s" new-level)))))
 
 (defun indent-control-get-indent-level-by-mode ()
   "Get indentation level by mode."
