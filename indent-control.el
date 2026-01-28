@@ -168,29 +168,29 @@
     (enh-ruby-mode         . enh-ruby-indent-level)
     (erlang-mode           . erlang-indent-level)
     (ess-mode              . ess-indent-offset)
-    (f90-mode              . (f90-associate-indent
-                              f90-continuation-indent
-                              f90-critical-indent
-                              f90-do-indent
-                              f90-if-indent
-                              f90-program-indent
-                              f90-type-indent))
-    (feature-mode          . (feature-indent-offset
-                              feature-indent-level))
-    (fsharp-mode           . (fsharp-continuation-offset
-                              fsharp-indent-level
-                              fsharp-indent-offset))
+    (f90-mode              . ( f90-associate-indent
+                               f90-continuation-indent
+                               f90-critical-indent
+                               f90-do-indent
+                               f90-if-indent
+                               f90-program-indent
+                               f90-type-indent))
+    (feature-mode          . ( feature-indent-offset
+                               feature-indent-level))
+    (fsharp-mode           . ( fsharp-continuation-offset
+                               fsharp-indent-level
+                               fsharp-indent-offset))
     (gdscript-mode         . gdscript-indent-offset)
     (groovy-mode           . groovy-indent-offset)
     (jenkinsfile-mode      . groovy-indent-offset)
-    (haskell-mode          . (haskell-indent-spaces
-                              haskell-indent-offset
-                              haskell-indentation-layout-offset
-                              haskell-indentation-left-offset
-                              haskell-indentation-starter-offset
-                              haskell-indentation-where-post-offset
-                              haskell-indentation-where-pre-offset
-                              shm-indent-spaces))
+    (haskell-mode          . ( haskell-indent-spaces
+                               haskell-indent-offset
+                               haskell-indentation-layout-offset
+                               haskell-indentation-left-offset
+                               haskell-indentation-starter-offset
+                               haskell-indentation-where-post-offset
+                               haskell-indentation-where-pre-offset
+                               shm-indent-spaces))
     (haxe-mode             . c-basic-offset)
     (haxor-mode            . haxor-tab-width)
     (idl-mode              . c-basic-offset)
@@ -233,30 +233,30 @@
     (scala-mode            . scala-indent:step)
     (scss-mode             . css-indent-offset)
     (sgml-mode             . sgml-basic-offset)
-    (sh-mode               . (sh-basic-offset sh-indentation))
+    (sh-mode               . ( sh-basic-offset sh-indentation))
     (shader-mode           . shader-indent-offset)
     (slim-mode             . slim-indent-offset)
     (sml-mode              . sml-indent-level)
     (sql-mode              . sql-indent-offset)
     (svelte-mode           . svelte-basic-offset)
-    (tcl-mode              . (tcl-indent-level tcl-continued-indent-level))
+    (tcl-mode              . ( tcl-indent-level tcl-continued-indent-level))
     (terra-mode            . terra-indent-level)
     (typescript-mode       . typescript-indent-level)
-    (verilog-mode          . (verilog-indent-level
-                              verilog-indent-level-behavioral
-                              verilog-indent-level-declaration
-                              verilog-indent-level-module
-                              verilog-cexp-indent
-                              verilog-case-indent))
-    (web-mode              . (web-mode-attr-indent-offset
-                              web-mode-attr-value-indent-offset
-                              web-mode-code-indent-offset
-                              web-mode-css-indent-offset
-                              web-mode-markup-indent-offset
-                              web-mode-sql-indent-offset
-                              web-mode-block-padding
-                              web-mode-script-padding
-                              web-mode-style-padding))
+    (verilog-mode          . ( verilog-indent-level
+                               verilog-indent-level-behavioral
+                               verilog-indent-level-declaration
+                               verilog-indent-level-module
+                               verilog-cexp-indent
+                               verilog-case-indent))
+    (web-mode              . ( web-mode-attr-indent-offset
+                               web-mode-attr-value-indent-offset
+                               web-mode-code-indent-offset
+                               web-mode-css-indent-offset
+                               web-mode-markup-indent-offset
+                               web-mode-sql-indent-offset
+                               web-mode-block-padding
+                               web-mode-script-padding
+                               web-mode-style-padding))
     (yaml-mode             . yaml-indent-offset)
     (zig-mode              . zig-indent-offset))
   "AList that maps `major-mode' to each major-mode's indent level variable name."
@@ -303,6 +303,10 @@
   "Make sure the VAL is between MIN and MAX."
   (max (min val max) min))
 
+(defun indent-control--listify (obj)
+  "Ensure OBJ is a list."
+  (if (listp obj) obj (list obj)))
+
 (defun indent-control--major-mode-p (name)
   "Return non-nil if NAME is current variable `major-mode'."
   (cond ((stringp name) (string= (symbol-name major-mode) name))
@@ -331,11 +335,12 @@
   'indent-control-ensure-tab-width 'indent-control-ensure-indentable
   "0.3.5")
 
-(defun indent-control--indent-level-name ()
+(defun indent-control--indent-level-names ()
   "Return symbol defined as indent level."
-  (or (cdr (assoc major-mode indent-control-alist))
-      (quote standard-indent)
-      (quote tab-width)))
+  (indent-control--listify
+   (or (cdr (assoc major-mode indent-control-alist))
+       (quote standard-indent)
+       (quote tab-width))))
 
 (defun indent-control--indent-level-record (&optional record-name)
   "Return record of current indent level by RECORD-NAME."
@@ -349,13 +354,15 @@
     (indent-control-ensure-indentable)
     (user-error "[WARNING] Indentation level record not found: %s" record-name)))
 
-(defun indent-control-set-indent-level-by-mode (new-level)
+(defun indent-control-set-indent-level-by-mode (&optional new-level)
   "Set the NEW-LEVEL for current major mode."
-  (interactive "NNew indent level: ")
-  (let ((var-symbol (indent-control--indent-level-name)))
-    (cond ((listp var-symbol)
-           (dolist (indent-var var-symbol) (set indent-var new-level)))
-          (t (set var-symbol new-level)))
+  (interactive)
+  (let* ((current (indent-control-get-indent-level-by-mode))
+         (prompt (format "New indent level (current: %s): " current))
+         (vars (indent-control--indent-level-names))
+         (new-level (or new-level (read-number prompt))))
+    (dolist (var vars)
+      (set var new-level))
     (setq-local standard-indent new-level))
   (when (and (integerp new-level)
              (indent-control--set-indent-level-record new-level))
@@ -364,12 +371,10 @@
 
 (defun indent-control-get-indent-level-by-mode ()
   "Get indentation level by mode."
-  (let ((var-symbol (indent-control--indent-level-name)))
-    (when (listp var-symbol) (setq var-symbol (nth 0 var-symbol)))
-    (unless (symbol-value var-symbol) (indent-control-ensure-indentable))
-    (or (symbol-value var-symbol)
-        standard-indent
-        tab-width)))
+  (let* ((vars (indent-control--indent-level-names))
+         (var (car vars)))
+    (unless (symbol-value var) (indent-control-ensure-indentable))
+    (symbol-value var)))
 
 (defun indent-control--delta-indent-level (delta-value)
   "Increase/Decrease tab width by DELTA-VALUE."
