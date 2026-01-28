@@ -8,7 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### 0.4.1 (Unreleased)
 > Released N/A
 
-* N/A
+* feat: Make set indent level interactive ([`0fb35b8`](../../commit/0fb35b8001ce286e700b5c1d5682a7433e53335e))
 
 ### 0.4.0
 > Released Jun 02, 2025
